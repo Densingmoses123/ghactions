@@ -29,5 +29,5 @@ jobs:
         with:
           args: >
               -Dsonar.organization=densingmoses123
-              -Dsonar.projectKey=ghactions
+              -Dsonar.projectKey=Densingmoses123_ghactions
               -Dsonar.python.coverage.reportPaths=coverage.xml
