@@ -31,3 +31,4 @@ jobs:
               -Dsonar.organization=densingmoses123
               -Dsonar.projectKey=ghactions
               -Dsonar.python.coverage.reportPaths=coverage.xml
+              -Dsonar.tests=python/
