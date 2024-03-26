@@ -1,38 +1,20 @@
-name: Main CI Build Workflow
-
+name: Build
 on:
+  push:
+    branches:
+      - main
   pull_request:
-    types:
-      - opened
-
+    types: [opened, synchronize, reopened]
 jobs:
-  initial_steps:
+  sonarcloud:
+    name: SonarCloud
     runs-on: ubuntu-latest
-
     steps:
-    
-      - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pytest
-
-      - name: DemoSonarCloudSCan
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
-            fetch-depth: 0
-
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
+        uses: SonarSource/sonarcloud-github-action@master
         env:
-            GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-              -Dsonar.organization=Densingmoses123_ghactions
-              -Dsonar.projectKey=ghactions
-              -Dsonar.python.coverage.reportPaths=coverage.xml
-
-      - name: SonarScanner SCAN
-        run: sonar-scanner -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.projectKey=Densingmoses123_ghactions
-
-       
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
